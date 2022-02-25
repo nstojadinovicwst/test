@@ -1,7 +1,8 @@
 <?php
 namespace Nemke\Framework;
 
-use Nemke\Db\Mysql;
+use Nemke\Db\DbInterface;
+
 
 class Bootstrap
 {
@@ -12,9 +13,16 @@ class Bootstrap
     /** @var Mysql  */
     public $mysql;
 
+    /**
+     * @var
+     */
     private $configuration;
 
-    public function __construct(Config $config, Mysql $mysql)
+    /**
+     * @param Config $config
+     * @param DbInterface $mysql
+     */
+    public function __construct(Config $config, DbInterface $mysql)
     {
         $this->config = $config;
         $this->mysql = $mysql;
@@ -23,6 +31,9 @@ class Bootstrap
 
     }
 
+    /**
+     * @return void
+     */
     private function initApplication()
     {
         $this->configuration = $this->config->getConfig();
@@ -30,6 +41,9 @@ class Bootstrap
     }
 
 
+    /**
+     * @return void
+     */
     private function initDb()
     {
         $this->mysql->connect($this->configuration['db']);

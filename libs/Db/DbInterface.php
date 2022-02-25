@@ -16,18 +16,24 @@ interface DbInterface {
      * Selecting dataset from DB
      *
      * @param string $table
-     * @param array $data
+     * @param string $where
      * @return mixed
      */
-    function select(string $table, array $data);
+    function select(string $table, string $where);
 
     /**
      * Updating dataset from DB
      *
      * @param string $table
-     * @param array $data
+     * @param string $update
+     * @param string $where
      * @return mixed
      */
-    function update(string $table, array $data);
+    function update(string $table, string $update, string $where);
+
+    /*
+     * Singleton method
+     */
+    public static function getInstance();
 
 }

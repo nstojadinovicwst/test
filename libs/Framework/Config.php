@@ -5,15 +5,26 @@ namespace Nemke\Framework;
 
 class Config
 {
-    private static $CONFIG_PATH =  __DIR__ . '/../../config/config.txt';
+    /**
+     * @var string
+     */
+    private static $CONFIG_PATH = __DIR__ . '/../../config/config.txt';
 
+    /**
+     * @var array
+     */
     private $config = [];
+
 
     public function __construct()
     {
         $this->loadConfigFile();
     }
 
+    /**
+     * @return void
+     * @throws \Exception
+     */
     private function loadConfigFile()
     {
 
@@ -26,6 +37,10 @@ class Config
 
     }
 
+    /**
+     * @param string $configFile
+     * @return void
+     */
     private function parseConfigFile(string $configFile)
     {
         $configLines = explode("\n", $configFile);
@@ -43,18 +58,26 @@ class Config
         }
     }
 
+    /**
+     * @param string $line
+     * @return array|string|string[]
+     */
     private function cleanLine(string $line)
     {
-        $line = str_replace('"','',$line);
+        $line = str_replace('"', '', $line);
 
         return $line;
     }
 
-    private function parseLine($line)
+    /**
+     * @param string $line
+     * @return false|void
+     */
+    private function parseLine(string $line)
     {
         $line = explode('=', $line);
 
-        if ((count($line) < 2) ) {
+        if ((count($line) < 2)) {
             return false;
         }
         $line[1] = trim($line[1]);
@@ -65,7 +88,7 @@ class Config
             $line[1] = trim(implode('', $configValue));
         }
 
-        $configPath = explode('.',trim($line[0]));
+        $configPath = explode('.', trim($line[0]));
 
         foreach ($configPath as $k => $path) {
 
@@ -79,10 +102,10 @@ class Config
                     break;
 
                 case 1:
-                    if ( (count($configPath) > 2)  && !isset($this->config[$configPath[0]][$path] )) {
+                    if ((count($configPath) > 2) && !isset($this->config[$configPath[0]][$path])) {
                         $this->config[$configPath[0]][$path] = [];
                     } else if (!isset($this->config[$configPath[0]][$path])) {
-                        $this->config[$configPath[0]][$path]  = $line[1];
+                        $this->config[$configPath[0]][$path] = $line[1];
                     }
 
                     break;
@@ -99,6 +122,9 @@ class Config
 
     }
 
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         return $this->config;
